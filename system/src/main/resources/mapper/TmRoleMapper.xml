@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.psh.mapper.TmRoleMapper">
+
+    <sql id="table_field">
+        #allSqlColumn
+        ()
+    </sql>
+    <!--分页查询-->
+    <select id="listByPage" resultType="com.psh.entity.response.ResTmRole">
+        select * from tm_role
+        where deleted = 0
+        <if test="null != param.cname and ''!= param.cname">
+            and cname like '%'||#{param.cname}||'%'
+        </if>
+        <if test="null != param.roleName and ''!= param.roleName">
+            and role_name like '%'||#{param.roleName}||'%'
+        </if>
+        <if test="null != param.described and ''!= param.described">
+            and described like '%'||#{param.described}||'%'
+        </if>
+
+    </select>
+
+
+    <select id="selectByRole" resultType="com.psh.entity.response.ResTmRoleVO">
+        select
+        t1.role_name ,t1.described ,t3.function_id ,t3.function_name ,t3.function_type ,t3.parent_id ,
+        t3.described as describedFun , t5.resources_url ,t5.described as describedRes
+        from tm_role t1 inner join tm_role_function t2 on t1.role_name =t2.role_name and t1.role_name in (
+        <foreach collection="param" item="li" separator=",">
+            #{li}
+        </foreach>
+        )
+        left join tm_functions t3 on t3.function_id =t2.function_id
+        left join tm_function_resources t4 on t4.function_id =t3.function_id left join tm_resources t5 on
+        t5.resources_id =t4.resources_id
+
+    </select>
+
+</mapper>

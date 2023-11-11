@@ -1,0 +1,65 @@
+server:
+  servlet:
+    context-path: /api
+  port: 8000
+
+
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+  redis:
+    # 启用集群配置后，单节点的配置就不生效了，也不会报错
+    host: 192.168.158.167
+    port: 6381
+    #Redis数据库索引（默认为0）
+    database: 0
+    #连接超时时间（毫秒）
+    timeout: 1800000
+    lettuce:
+      pool:
+        max-active: 20    #连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1      #最大阻塞等待时间(负数表示没限制)
+        max-idle: 8       #连接池中的最大空闲连接
+        min-idle: 0        #连接池中的最小空闲连接
+      cluster:
+        refresh:
+          adaptive: true    #支持集群拓扑动态感应刷新，默认为关闭
+          period: 20000      #定时刷新
+    password: 123456
+    cluster:
+      nodes: 192.168.158.167:6381,192.168.158.167:6382,192.168.158.168:6381,192.168.158.168:6382,192.168.158.169:6381,192.168.158.169:6382
+      max-redirects: 3
+  application:
+    name: system
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://192.168.158.135:8848
+        namespace: d3a69e71-1c55-411c-940a-1f275c8c7bea
+      username: nacos
+      password: nacos
+  #      config:
+  #        server-addr: 192.168.158.135:8848 #配置中心
+  #        namespace: 1594f901-f5d5-41f1-a21c-f0fba62ffe13
+  #        file-extension: yaml
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://192.168.158.134:3306/tm_db?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      username: root
+      password: psh120370
+
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: com.psh.mapper
+
+file:
+  upload: H:/upload/
+  resourcePrefix: /uploadFile
+
+session:
+  timeOut: 600

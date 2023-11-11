@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.psh.mapper.TmUserMapper">
+
+    <sql id="table_field">
+        #allSqlColumn
+        ()
+    </sql>
+    <!--分页查询-->
+    <select id="listByPage" resultType="com.psh.entity.response.ResTmUser">
+        select * from tm_user
+        where deleted = 0
+        <if test="null != param.account and ''!= param.account">
+            and ACCOUNT like '%'||#{param.account}||'%'
+        </if>
+        <if test="null != param.username and ''!= param.username">
+            and USERNAME like '%'||#{param.username}||'%'
+        </if>
+        <if test="null != param.password and ''!= param.password">
+            and password like '%'||#{param.password}||'%'
+        </if>
+        <if test="null != param.sex and ''!= param.sex">
+            and SEX like '%'||#{param.sex}||'%'
+        </if>
+        <if test="null != param.age and ''!= param.age">
+            and AGE like '%'||#{param.age}||'%'
+        </if>
+        <if test="null != param.phoneNumber and ''!= param.phoneNumber">
+            and PHONE_NUMBER like '%'||#{param.phoneNumber}||'%'
+        </if>
+        <if test="null != param.departmentNo and ''!= param.departmentNo">
+            and DEPARTMENT_NO like '%'||#{param.departmentNo}||'%'
+        </if>
+        <if test="null != param.position and ''!= param.position">
+            and POSITION like '%'||#{param.position}||'%'
+        </if>
+        <if test="null != param.described and ''!= param.described">
+            and DESCRIBED like '%'||#{param.described}||'%'
+        </if>
+        <if test="null != param.cname and ''!= param.cname">
+            and CNAME like '%'||#{param.cname}||'%'
+        </if>
+
+    </select>
+
+
+    <!--分页查询-->
+    <select id="selectByUser" resultType="com.psh.entity.response.ResTmUser">
+        select *
+        from tm_user
+        where deleted = 0
+            and ACCOUNT = #{param.account}
+            and password = #{param.password}
+
+    </select>
+
+</mapper>

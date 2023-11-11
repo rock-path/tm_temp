@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.psh.mapper.TmFunctionsMapper">
+
+    <sql id="table_field">
+      #allSqlColumn()
+    </sql>
+    <!--分页查询-->
+    <select id="listByPage" resultType="com.psh.entity.response.ResTmFunctions">
+            select * from tm_functions
+            where deleted = 0
+                <if test="null != param.cname and ''!= param.cname">
+           and cname like '%'||#{param.cname}||'%'        </if>
+                                 <if test="null != param.functionId and ''!= param.functionId">
+           and function_id like '%'||#{param.functionId}||'%'        </if>
+                 <if test="null != param.functionName and ''!= param.functionName">
+           and function_name like '%'||#{param.functionName}||'%'        </if>
+                 <if test="null != param.functionType and ''!= param.functionType">
+           and function_type like '%'||#{param.functionType}||'%'        </if>
+                 <if test="null != param.parentId and ''!= param.parentId">
+           and parent_id like '%'||#{param.parentId}||'%'        </if>
+                 <if test="null != param.described and ''!= param.described">
+           and described like '%'||#{param.described}||'%'        </if>
+                 
+        </select>
+</mapper>
